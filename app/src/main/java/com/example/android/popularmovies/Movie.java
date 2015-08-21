@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2015 Tobias
+ */
+
 package com.example.android.popularmovies;
 
 import java.util.Arrays;
@@ -5,11 +9,11 @@ import java.util.Arrays;
 /**
  * The following class is meant to be used with TMDb (the Movie Database)
  * The following setters/getters correspond to the movies JSON data
- *
  * Familiarity with TMDb's API is expected.
  * https://www.themoviedb.org/
  * https://www.themoviedb.org/documentation/api
  */
+
 public class Movie {
     private final String IMAGE_URL = "http://image.tmdb.org/t/p/";
     private final String[] SIZES = {"w92", "w154", "w185", "w342", "w500", "w780", "original"};
@@ -58,6 +62,7 @@ public class Movie {
      * Sets the path for the backdrop image to the following string
      * @param backdropPath
      */
+
     public void setBackdropPath(String backdropPath) {
         mBackdropPath = backdropPath;
     }
