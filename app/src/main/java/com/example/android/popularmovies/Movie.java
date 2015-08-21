@@ -4,6 +4,7 @@
 
 package com.example.android.popularmovies;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
@@ -14,7 +15,7 @@ import java.util.Arrays;
  * https://www.themoviedb.org/documentation/api
  */
 
-public class Movie {
+public class Movie implements Serializable {
     private final String IMAGE_URL = "http://image.tmdb.org/t/p/";
     private final String[] SIZES = {"w92", "w154", "w185", "w342", "w500", "w780", "original"};
 
@@ -44,6 +45,7 @@ public class Movie {
 
     /**
      * Constructs a new Movie with the specificed TMDB movie id
+     *
      * @param id TMDB movie id
      */
     public Movie(int id) {
@@ -52,6 +54,7 @@ public class Movie {
 
     /**
      * Sets the genres of the movie to the following genres stored in the array
+     *
      * @param genres an array of type int with TMDB movie genre ids
      */
     public void setGenres(int[] genres) {
@@ -60,15 +63,16 @@ public class Movie {
 
     /**
      * Sets the path for the backdrop image to the following string
+     *
      * @param backdropPath
      */
-
     public void setBackdropPath(String backdropPath) {
         mBackdropPath = backdropPath;
     }
 
     /**
      * Sets the path for the poster image to the following string
+     *
      * @param posterPath
      */
     public void setPosterPath(String posterPath) {
@@ -77,6 +81,7 @@ public class Movie {
 
     /**
      * Sets the original title for the movie to be the following string
+     *
      * @param originalTitle
      */
     public void setOriginalTitle(String originalTitle) {
@@ -85,6 +90,7 @@ public class Movie {
 
     /**
      * Sets the original language of the movie to be the following string
+     *
      * @param originalLanguage
      */
     public void setOriginalLanguage(String originalLanguage) {
@@ -93,6 +99,7 @@ public class Movie {
 
     /**
      * Sets the overview of the movie to be the following string
+     *
      * @param overview
      */
     public void setOverview(String overview) {
@@ -101,6 +108,7 @@ public class Movie {
 
     /**
      * Sets the release date of the movie to be the following string
+     *
      * @param releaseDate
      */
     public void setReleaseDate(String releaseDate) {
@@ -109,6 +117,7 @@ public class Movie {
 
     /**
      * Sets the vote average of the movie to be the following string
+     *
      * @param voteAverage
      */
     public void setVoteAverage(String voteAverage) {
@@ -117,6 +126,7 @@ public class Movie {
 
     /**
      * Sets the vote count of the movie to be the following string
+     *
      * @param voteCount
      */
     public void setVoteCount(String voteCount) {
@@ -125,6 +135,7 @@ public class Movie {
 
     /**
      * Sets the popularity of the movie to be the following string
+     *
      * @param popularity
      */
     public void setPopularity(double popularity) {

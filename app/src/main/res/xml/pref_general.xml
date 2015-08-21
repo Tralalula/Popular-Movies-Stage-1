@@ -5,11 +5,11 @@
     android:layout_height="match_parent">
 
     <ListPreference
-        android:key="@string/pref_sort_order_key"
-        android:title="@string/pref_sort_order_label"
-        android:summary="%s"
         android:defaultValue="@string/pref_sort_order_most_popular"
         android:entries="@array/pref_sort_order_options"
-        android:entryValues="@array/pref_sort_order_values" />
+        android:entryValues="@array/pref_sort_order_values"
+        android:key="@string/pref_sort_order_key"
+        android:summary="%s"
+        android:title="@string/pref_sort_order_label" />
 
 </PreferenceScreen>

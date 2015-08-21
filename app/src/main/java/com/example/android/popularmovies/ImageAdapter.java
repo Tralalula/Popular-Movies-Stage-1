@@ -16,6 +16,7 @@ public class ImageAdapter extends BaseAdapter {
 
     /**
      * Constructs a new ImageAdapter with Context context
+     *
      * @param context
      */
     public ImageAdapter(Context context) {
@@ -25,6 +26,7 @@ public class ImageAdapter extends BaseAdapter {
     /**
      * Constructs a new ImageAdapter with Context context
      * and an ArrayList of type String with imageUrls
+     *
      * @param context
      * @param imageUrls an ArrayList of type String containing paths to image locations
      */
@@ -42,6 +44,7 @@ public class ImageAdapter extends BaseAdapter {
 
     /**
      * Add an image URL to the adapter
+     *
      * @param imageUrl a string containing the full URL to the image location
      */
     public void add(String imageUrl) {
@@ -75,6 +78,7 @@ public class ImageAdapter extends BaseAdapter {
     /**
      * Find's the specific image URL with the following position
      * And loads the image into the specified view
+     *
      * @param position
      * @param convertView
      * @param parent
