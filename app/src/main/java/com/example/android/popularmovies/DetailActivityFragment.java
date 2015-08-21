@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2015 Tobias
+ */
+
 package com.example.android.popularmovies;
 
 import android.content.Intent;
@@ -52,7 +56,8 @@ public class DetailActivityFragment extends Fragment {
             ((TextView) rootView.findViewById(R.id.original_title)).setText(movieOriginalTitle);
             ((TextView) rootView.findViewById(R.id.overview)).setText(movieOverview);
             ((TextView) rootView.findViewById(R.id.release_date)).setText(movieReleaseDate);
-            ((TextView) rootView.findViewById(R.id.rating)).setText(movieVoteAverage + " by " + movieVoteCount + " users");
+            ((TextView) rootView.findViewById(R.id.rating))
+                    .setText(movieVoteAverage + " by " + movieVoteCount + " users");
         }
 
         return rootView;

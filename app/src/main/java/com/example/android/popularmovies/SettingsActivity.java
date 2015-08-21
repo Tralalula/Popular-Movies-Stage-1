@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2015 Tobias
+ */
+
 package com.example.android.popularmovies;
 
 import android.app.Activity;

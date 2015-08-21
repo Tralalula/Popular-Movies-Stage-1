@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2015 Tobias
+ */
+
 package com.example.android.popularmovies;
 
 import android.content.Intent;
@@ -30,6 +34,7 @@ import java.util.ArrayList;
 /**
  * A placeholder fragment containing a simple view.
  */
+
 public class MainActivityFragment extends Fragment {
     private final String LOG_TAG = FetchMoviesTask.class.getSimpleName();
 
@@ -47,6 +52,7 @@ public class MainActivityFragment extends Fragment {
     public MainActivityFragment() {
     }
 
+    @Override
     public void onStart() {
         super.onStart();
         updateMovies();
@@ -54,8 +60,10 @@ public class MainActivityFragment extends Fragment {
 
     private void updateMovies() {
         FetchMoviesTask fetchMoviesTask = new FetchMoviesTask();
+
         SharedPreferences sharedPrefs =
                 PreferenceManager.getDefaultSharedPreferences(getActivity());
+
         String sortOrder = sharedPrefs.getString(
                 getString(R.string.pref_sort_order_key),
                 getString(R.string.pref_sort_order_most_popular));
@@ -94,14 +102,19 @@ public class MainActivityFragment extends Fragment {
     }
 
     /**
-     * Generates API url used to fetch JSON data from the Movie Database
+     * Generates API url used to fetch JSON data from TMDb
      */
-    private URL generateUrl(String path, String sortByParam, String movieSortBy) throws MalformedURLException {
+    private URL generateUrl(String path, String sortByParam, String movieSortBy)
+            throws MalformedURLException {
         Uri builtUri = Uri.parse(API_BASE_URL + path);
         if (!path.equals(TOP_RATED_PATH)) {
-            builtUri = builtUri.buildUpon().appendQueryParameter(sortByParam, movieSortBy).build();
+            builtUri = builtUri.buildUpon()
+                    .appendQueryParameter(sortByParam, movieSortBy)
+                    .build();
         }
-        builtUri = builtUri.buildUpon().appendQueryParameter(API_KEY_PARAM, API_KEY).build();
+        builtUri = builtUri.buildUpon()
+                .appendQueryParameter(API_KEY_PARAM, API_KEY)
+                .build();
 
         System.out.println("URL URL URL " + builtUri.toString());
         return new URL(builtUri.toString());
@@ -148,7 +161,8 @@ public class MainActivityFragment extends Fragment {
             System.out.println("[Movie] overview: " + overview);
             System.out.println("[Movie] releaseDate: " + releaseDate);
             System.out.println("[Movie] posterPath: " + fullPosterPath);
-            System.out.println("[Movie] voteAverage: " + voteAverage + " by " + voteCount + "users");
+            System.out.println("[Movie] voteAverage: " + voteAverage + " by "
+                    + voteCount + "users");
             // Debugging statements - END
 
             Movie movie = new Movie(id);
@@ -166,6 +180,7 @@ public class MainActivityFragment extends Fragment {
     }
 
     private class FetchMoviesTask extends AsyncTask<String, Void, ArrayList<Movie>> {
+        @Override
         protected ArrayList<Movie> doInBackground(String... params) {
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
@@ -222,6 +237,7 @@ public class MainActivityFragment extends Fragment {
             return null;
         }
 
+        @Override
         protected void onPostExecute(ArrayList<Movie> result) {
             if (result != null) {
                 mMoviesAdapter.clear();

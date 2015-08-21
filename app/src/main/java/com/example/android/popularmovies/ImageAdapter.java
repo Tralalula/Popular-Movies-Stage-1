@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2015 Tobias
+ */
+
 package com.example.android.popularmovies;
 
 import android.content.Context;
@@ -55,6 +59,7 @@ public class ImageAdapter extends BaseAdapter {
     /**
      * @return how many image URls the adapter contains
      */
+    @Override
     public int getCount() {
         return mImageUrls.size();
     }
@@ -63,6 +68,7 @@ public class ImageAdapter extends BaseAdapter {
      * @param position
      * @return the image URL as a String
      */
+    @Override
     public String getItem(int position) {
         return mImageUrls.get(position);
     }
@@ -71,6 +77,7 @@ public class ImageAdapter extends BaseAdapter {
      * @param position
      * @return the image URLs position
      */
+    @Override
     public long getItemId(int position) {
         return position;
     }
@@ -84,6 +91,7 @@ public class ImageAdapter extends BaseAdapter {
      * @param parent
      * @return ImageView with image loaded into it
      */
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView = (ImageView) convertView;
         if (imageView == null) {

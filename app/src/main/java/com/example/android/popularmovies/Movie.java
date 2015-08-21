@@ -17,7 +17,15 @@ import java.util.Arrays;
 
 public class Movie implements Serializable {
     private final String IMAGE_URL = "http://image.tmdb.org/t/p/";
-    private final String[] SIZES = {"w92", "w154", "w185", "w342", "w500", "w780", "original"};
+    private final String[] AVAILABLE_SIZES = {
+            "w92",
+            "w154",
+            "w185",
+            "w342",
+            "w500",
+            "w780",
+            "original"
+    };
 
     public final String SIZE_W92 = "w92";
     public final String SIZE_W154 = "w154";
@@ -162,7 +170,7 @@ public class Movie implements Serializable {
      * @return complete url where the movies image can be found
      */
     private String getImageUrl(String size, String path) {
-        if (!Arrays.asList(SIZES).contains(size)) {
+        if (!Arrays.asList(AVAILABLE_SIZES).contains(size)) {
             throw new NullPointerException();
         }
         return IMAGE_URL + size + "/" + path;
