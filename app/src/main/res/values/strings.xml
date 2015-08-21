@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Popular Movies</string>
     <string name="action_settings">Settings</string>
@@ -8,6 +9,6 @@
     <string name="pref_sort_order_label_most_popular">Most Popular</string>
     <string name="pref_sort_order_label_top_rated">Highest Rated</string>
     <string name="pref_sort_order_key" translatable="false">sort order</string>
-    <string name="pref_sort_order_most_popular" translatable="false">most popular</string>
-    <string name="pref_sort_order_top_rated" translatable="false">top rated</string>
+    <string name="pref_sort_order_most_popular" translatable="false">popularity.desc</string>
+    <string name="pref_sort_order_top_rated" translatable="false"></string>
 </resources>

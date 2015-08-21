@@ -1,8 +1,10 @@
 package com.example.android.popularmovies;
 
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,10 +37,10 @@ public class MainActivityFragment extends Fragment {
     private final String SORT_BY_PARAM  = "sort_by";
 
     private final String MOST_POPULAR_PATH  = "discover/movie";
-    private final String HIGHEST_RATED_PATH = "movie/top_rated";
+    private final String TOP_RATED_PATH = "movie/top_rated";
 
-    private final String MOVIE_SORT_BY_POPULARITY    = "popularity.desc";
-    private final String MOVIE_SORT_BY_HIGHEST_RATED = "";
+//    private final String MOVIE_SORT_BY_POPULARITY = "popularity.desc";
+//    private final String MOVIE_SORT_BY_TOP_RATED = "";
 
     private ImageAdapter mMoviesAdapter;
     private ArrayList<Movie> mMoviesList;
@@ -53,7 +55,22 @@ public class MainActivityFragment extends Fragment {
 
     private void updateMovies() {
         FetchMoviesTask fetchMoviesTask = new FetchMoviesTask();
-        fetchMoviesTask.execute(MOST_POPULAR_PATH, MOVIE_SORT_BY_POPULARITY);
+        SharedPreferences sharedPrefs =
+                PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String sortOrder = sharedPrefs.getString(
+                getString(R.string.pref_sort_order_key),
+                getString(R.string.pref_sort_order_most_popular));
+
+        String path = null;
+        if (sortOrder.equals(getString(R.string.pref_sort_order_most_popular))) {
+            path = MOST_POPULAR_PATH;
+        } else if (sortOrder.equals(getString(R.string.pref_sort_order_top_rated))) {
+            path = TOP_RATED_PATH;
+        } else {
+            throw new NullPointerException();
+        }
+
+        fetchMoviesTask.execute(path, sortOrder);
     }
 
     @Override
@@ -71,7 +88,7 @@ public class MainActivityFragment extends Fragment {
     /** Generates API url used to fetch JSON data from the Movie Database */
     private URL generateUrl(String path, String sortByParam, String movieSortBy) throws MalformedURLException {
         Uri builtUri = Uri.parse(API_BASE_URL + path);
-        if (!path.equals(HIGHEST_RATED_PATH)) {
+        if (!path.equals(TOP_RATED_PATH)) {
             builtUri = builtUri.buildUpon().appendQueryParameter(sortByParam, movieSortBy).build();
         }
         builtUri = builtUri.buildUpon().appendQueryParameter(API_KEY_PARAM, API_KEY).build();
