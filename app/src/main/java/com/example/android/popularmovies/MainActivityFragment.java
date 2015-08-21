@@ -147,7 +147,7 @@ public class MainActivityFragment extends Fragment {
      * The URL contains the JSON data needed for the FetchMoviesTask
      * to populate the GridView, and the data needed for the DetailActivity.
      *
-     * @param path TOP_RATED_PATH or MOST_POPULAR_PATH
+     * @param path        TOP_RATED_PATH or MOST_POPULAR_PATH
      * @param sortByParam SORT_BY_PARAM
      * @param movieSortBy movie sort order
      * @return URL of type String
@@ -172,7 +172,7 @@ public class MainActivityFragment extends Fragment {
      * Returns an ArrayList of type Movie, and it sets mMoviesList to the following ArrayList.
      * It is used to populate the GridView layout with poster images, using the mMoviePosterAdapter.
      * It is also used to pass data to another activity.
-     *
+     * <p/>
      * Each Movie object will be set with a:
      * backdropPath
      * posterPath

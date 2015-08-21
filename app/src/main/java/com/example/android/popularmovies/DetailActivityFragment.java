@@ -52,7 +52,7 @@ public class DetailActivityFragment extends Fragment {
      * Update the DetailActivity UI with the movie information.
      *
      * @param rootView
-     * @param movie used to update DetailActivity UI
+     * @param movie    used to update DetailActivity UI
      */
     private void updateDetailActivityWithData(View rootView, Movie movie) {
         ButterKnife.bind(this, rootView);
