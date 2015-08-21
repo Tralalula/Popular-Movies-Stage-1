@@ -7,6 +7,7 @@ package com.example.android.popularmovies;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +43,7 @@ public class DetailActivityFragment extends Fragment {
      * Update the DetailActivity UI with the movie information.
      *
      * @param rootView
-     * @param movie    used to update DetailActivity UI
+     * @param movie used to update DetailActivity UI
      */
     private void updateDetailActivityWithData(View rootView, Movie movie) {
         String movieBackdropPath = movie.getBackdropPath(movie.SIZE_W780);
@@ -66,7 +67,11 @@ public class DetailActivityFragment extends Fragment {
                 .into(posterPathView);
 
         ((TextView) rootView.findViewById(R.id.original_title)).setText(movieOriginalTitle);
-        ((TextView) rootView.findViewById(R.id.overview)).setText(movieOverview);
+
+        TextView overviewTextView = (TextView) rootView.findViewById(R.id.overview);
+        overviewTextView.setText(movieOverview);
+        overviewTextView.setMovementMethod(new ScrollingMovementMethod());
+
         ((TextView) rootView.findViewById(R.id.release_date)).setText(movieReleaseDate);
         ((TextView) rootView.findViewById(R.id.rating))
                 .setText(movieVoteAverage + " by " + movieVoteCount + " users");
