@@ -4,10 +4,10 @@
 
 package com.example.android.popularmovies;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +16,21 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * A placeholder fragment containing a simple view.
  */
 public class DetailActivityFragment extends Fragment {
+    @Bind(R.id.backdrop) ImageView mMovieBackdropPath;
+    @Bind(R.id.poster)   ImageView mMoviePosterPath;
+
+    @Bind(R.id.original_title) TextView mMovieOriginalTitle;
+    @Bind(R.id.overview)       TextView mMovieOverview;
+    @Bind(R.id.release_date)   TextView mMovieReleaseDate;
+    @Bind(R.id.rating)         TextView mMovieRating;
+
     public DetailActivityFragment() {
     }
 
@@ -44,33 +55,21 @@ public class DetailActivityFragment extends Fragment {
      * @param movie used to update DetailActivity UI
      */
     private void updateDetailActivityWithData(View rootView, Movie movie) {
-        String movieBackdropPath = movie.getBackdropPath();
-        String moviePosterPath = movie.getPosterPath();
-        String movieOriginalTitle = movie.getOriginalTitle();
-        String movieOverview = movie.getOverview();
-        String movieReleaseDate = movie.getReleaseDate();
-        String movieVoteAverage = movie.getVoteAverage();
-        String movieVoteCount = movie.getVoteCount();
+        ButterKnife.bind(this, rootView);
+        Activity activity = getActivity();
 
-        ImageView backdropPathView = (ImageView) rootView.findViewById(R.id.backdrop);
-        backdropPathView.setScaleType(ImageView.ScaleType.FIT_XY);
-        Picasso.with(getActivity())
-                .load(movieBackdropPath)
-                .into(backdropPathView);
+        mMovieBackdropPath.setScaleType(ImageView.ScaleType.FIT_XY);
+        Picasso.with(activity)
+                .load(movie.getBackdropPath())
+                .into(mMovieBackdropPath);
 
-        ImageView posterPathView = (ImageView) rootView.findViewById(R.id.poster);
-        Picasso.with(getActivity())
-                .load(moviePosterPath)
-                .into(posterPathView);
+        Picasso.with(activity)
+                .load(movie.getPosterPath())
+                .into(mMoviePosterPath);
 
-        ((TextView) rootView.findViewById(R.id.original_title)).setText(movieOriginalTitle);
-
-        TextView overviewTextView = (TextView) rootView.findViewById(R.id.overview);
-        overviewTextView.setText(movieOverview);
-        overviewTextView.setMovementMethod(new ScrollingMovementMethod());
-
-        ((TextView) rootView.findViewById(R.id.release_date)).setText(movieReleaseDate);
-        ((TextView) rootView.findViewById(R.id.rating))
-                .setText(movieVoteAverage + " by " + movieVoteCount + " users");
+        mMovieOriginalTitle.setText(movie.getOriginalTitle());
+        mMovieOverview.setText(movie.getOverview());
+        mMovieReleaseDate.setText(movie.getReleaseDate());
+        mMovieRating.setText(movie.getVoteAverage() + " by " + movie.getVoteCount() + " users");
     }
 }
