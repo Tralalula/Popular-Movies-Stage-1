@@ -46,7 +46,7 @@ public class MainActivityFragment extends Fragment {
     private final String MOST_POPULAR_PATH = "discover/movie";
     private final String TOP_RATED_PATH = "movie/top_rated";
 
-    private ImageAdapter mMoviesAdapter;
+    private ImageAdapter moviePosterAdapter;
     private ArrayList<Movie> mMoviesList;
 
     public MainActivityFragment() {
@@ -58,6 +58,9 @@ public class MainActivityFragment extends Fragment {
         updateMovies();
     }
 
+    /**
+     * Executes the FetchMoviesTask, with the sort order and path specified in the settings.
+     */
     private void updateMovies() {
         FetchMoviesTask fetchMoviesTask = new FetchMoviesTask();
 
@@ -83,9 +86,9 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        mMoviesAdapter = new ImageAdapter(getActivity());
+        moviePosterAdapter = new ImageAdapter(getActivity());
         GridView gridview = (GridView) rootView.findViewById(R.id.grid_view);
-        gridview.setAdapter(mMoviesAdapter);
+        gridview.setAdapter(moviePosterAdapter);
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -102,7 +105,15 @@ public class MainActivityFragment extends Fragment {
     }
 
     /**
-     * Generates API url used to fetch JSON data from TMDb
+     * Returns a new URL of type String, using TMDb API.
+     * The URL contains the JSON data needed for the FetchMoviesTask
+     * to populate the GridView, and the data needed for the DetailActivity.
+     *
+     * @param path TOP_RATED_PATH or MOST_POPULAR_PATH
+     * @param sortByParam SORT_BY_PARAM
+     * @param movieSortBy movie sort order
+     * @return URL of type String
+     * @throws MalformedURLException
      */
     private URL generateUrl(String path, String sortByParam, String movieSortBy)
             throws MalformedURLException {
@@ -116,10 +127,27 @@ public class MainActivityFragment extends Fragment {
                 .appendQueryParameter(API_KEY_PARAM, API_KEY)
                 .build();
 
-        System.out.println("URL URL URL " + builtUri.toString());
         return new URL(builtUri.toString());
     }
 
+    /**
+     * Returns an ArrayList of type Movie, and it sets mMoviesList to the following ArrayList.
+     * It is used to populate the GridView layout with poster images, using the moviePosterAdapter.
+     * It is also used to pass data to another activity.
+     *
+     * Each Movie object will be set with a:
+     * backdropPath
+     * posterPath
+     * originalTitle
+     * overview
+     * releaseDate
+     * voteAverage
+     * voteCount
+     *
+     * @param moviesJsonStr a TMDb JSON string with information about the desired movies
+     * @return ArrayList of type Movie with all the movies added from moviesJsonStr
+     * @throws JSONException
+     */
     private ArrayList<Movie> getMovies(String moviesJsonStr) throws JSONException {
         final String TMDB_RESULTS = "results";
         final String TMDB_backdrop_path = "backdrop_path";
@@ -151,19 +179,6 @@ public class MainActivityFragment extends Fragment {
 
             String voteAverage = movieInfo.getString(TMDB_VOTE_AVERAGE);
             String voteCount = movieInfo.getString(TMDB_VOTE_COUNT);
-
-            // Debugging statements - START
-            String fullBackdropPath = "http://image.tmdb.org/t/p/w780/" + backdropPath;
-            String fullPosterPath = "http://image.tmdb.org/t/p/w342/" + posterPath;
-
-            System.out.println("[Movie] backdropPath: " + fullBackdropPath);
-            System.out.println("[Movie] originalTitle: " + originalTitle);
-            System.out.println("[Movie] overview: " + overview);
-            System.out.println("[Movie] releaseDate: " + releaseDate);
-            System.out.println("[Movie] posterPath: " + fullPosterPath);
-            System.out.println("[Movie] voteAverage: " + voteAverage + " by "
-                    + voteCount + "users");
-            // Debugging statements - END
 
             Movie movie = new Movie(id);
             movie.setBackdropPath(backdropPath);
@@ -240,9 +255,9 @@ public class MainActivityFragment extends Fragment {
         @Override
         protected void onPostExecute(ArrayList<Movie> result) {
             if (result != null) {
-                mMoviesAdapter.clear();
+                moviePosterAdapter.clear();
                 for (Movie movie : result) {
-                    mMoviesAdapter.add(movie.getPosterPath(movie.SIZE_W342));
+                    moviePosterAdapter.add(movie.getPosterPath(movie.SIZE_W342));
                 }
             }
         }

@@ -167,7 +167,7 @@ public class Movie implements Serializable {
     /**
      * @param size one of the specified size's above e.g. SIZE_W185
      * @param path backdropPath or posterPath
-     * @return complete url where the movies image can be found
+     * @return complete url where the desired image can be found
      */
     private String getImageUrl(String size, String path) {
         if (!Arrays.asList(AVAILABLE_SIZES).contains(size)) {
