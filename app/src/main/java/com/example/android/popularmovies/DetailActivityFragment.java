@@ -29,10 +29,8 @@ public class DetailActivityFragment extends Fragment {
         Intent intent = getActivity().getIntent();
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
-        if (intent != null && intent.hasExtra("movie bundle")) {
-            Bundle bundle = intent.getBundleExtra("movie bundle");
-            Movie movie = (Movie) bundle.getSerializable("movie");
-
+        if (intent != null) {
+            Movie movie = intent.getParcelableExtra("movie parcel");
             updateDetailActivityWithData(rootView, movie);
         }
 
@@ -46,9 +44,8 @@ public class DetailActivityFragment extends Fragment {
      * @param movie used to update DetailActivity UI
      */
     private void updateDetailActivityWithData(View rootView, Movie movie) {
-        String movieBackdropPath = movie.getBackdropPath(movie.SIZE_W780);
-        String moviePosterPath = movie.getPosterPath(movie.SIZE_W342);
-
+        String movieBackdropPath = movie.getBackdropPath();
+        String moviePosterPath = movie.getPosterPath();
         String movieOriginalTitle = movie.getOriginalTitle();
         String movieOverview = movie.getOverview();
         String movieReleaseDate = movie.getReleaseDate();
@@ -56,9 +53,9 @@ public class DetailActivityFragment extends Fragment {
         String movieVoteCount = movie.getVoteCount();
 
         ImageView backdropPathView = (ImageView) rootView.findViewById(R.id.backdrop);
-        backdropPathView.setScaleType(ImageView.ScaleType.FIT_XY);
         Picasso.with(getActivity())
                 .load(movieBackdropPath)
+                .fit()
                 .into(backdropPathView);
 
         ImageView posterPathView = (ImageView) rootView.findViewById(R.id.poster);

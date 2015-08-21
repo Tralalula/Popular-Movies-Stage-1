@@ -103,6 +103,8 @@ public class ImageAdapter extends BaseAdapter {
 
         Picasso.with(mContext)
                 .load(url)
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.placeholder_error)
                 .into(imageView);
 
         return imageView;

@@ -4,7 +4,9 @@
 
 package com.example.android.popularmovies;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Arrays;
 
 /**
@@ -15,7 +17,7 @@ import java.util.Arrays;
  * https://www.themoviedb.org/documentation/api
  */
 
-public class Movie implements Serializable {
+public class Movie implements Parcelable {
     private final String IMAGE_URL = "http://image.tmdb.org/t/p/";
     private final String[] AVAILABLE_SIZES = {
             "w92",
@@ -177,11 +179,25 @@ public class Movie implements Serializable {
     }
 
     /**
+     * @return complete url where the movies backdrop image can be found with the original size
+     */
+    public String getBackdropPath() {
+        return getBackdropPath(SIZE_ORIGINAL);
+    }
+
+    /**
      * @param size one of the specified sizes at the top of the file e.g. SIZE_W185
      * @return complete url where the movies backdrop image can be be found
      */
     public String getBackdropPath(String size) {
         return getImageUrl(size, mBackdropPath);
+    }
+
+    /**
+     * @return complete url where the movies poster image can be found with the original size
+     */
+    public String getPosterPath() {
+        return getPosterPath(SIZE_ORIGINAL);
     }
 
     /**
@@ -239,5 +255,52 @@ public class Movie implements Serializable {
      */
     public double getPopularity() {
         return mPopularity;
+    }
+
+    private Movie(Parcel in) {
+        mId = in.readInt();
+        mGenres = in.createIntArray();
+        mBackdropPath = in.readString();
+        mPosterPath = in.readString();
+        mOriginalTitle = in.readString();
+        mOriginalLanguage = in.readString();
+        mOverview = in.readString();
+        mReleaseDate = in.readString();
+        mVoteAverage = in.readString();
+        mVoteCount = in.readString();
+        mPopularity = in.readDouble();
+    }
+
+    public static final Parcelable.Creator<Movie> CREATOR
+            = new Parcelable.Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeInt(getId());
+        parcel.writeIntArray(getGenres());
+        parcel.writeString(getBackdropPath(SIZE_W780));
+        parcel.writeString(getPosterPath(SIZE_W342));
+        parcel.writeString(getOriginalTitle());
+        parcel.writeString(getOriginalLanguage());
+        parcel.writeString(getOverview());
+        parcel.writeString(getReleaseDate());
+        parcel.writeString(getVoteAverage());
+        parcel.writeString(getVoteCount());
+        parcel.writeDouble(getPopularity());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 }

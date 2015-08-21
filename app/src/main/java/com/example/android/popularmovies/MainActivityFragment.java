@@ -94,9 +94,7 @@ public class MainActivityFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(rootView.getContext(), DetailActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("movie", mMoviesList.get(position));
-                intent.putExtra("movie bundle", bundle);
+                intent.putExtra("movie parcel", mMoviesList.get(position));
                 startActivity(intent);
             }
         });
