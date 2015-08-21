@@ -11,6 +11,8 @@ import android.view.ViewGroup;
  */
 public class MainActivityFragment extends Fragment {
 
+    private ImageAdapter mMoviesAdapter;
+
     public MainActivityFragment() {
     }
 
@@ -18,6 +20,9 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
+
+
         return rootView;
     }
 }
