@@ -194,6 +194,8 @@ public class MainActivityFragment extends Fragment {
         return mMoviesList;
     }
 
+    // The following code is taken from the following gist: https://gist.github.com/anonymous/1c04bf2423579e9d2dcd
+    // provided by Udacity in the Developing Android Apps course: https://www.udacity.com/course/developing-android-apps--ud853
     private class FetchMoviesTask extends AsyncTask<String, Void, ArrayList<Movie>> {
         @Override
         protected ArrayList<Movie> doInBackground(String... params) {
