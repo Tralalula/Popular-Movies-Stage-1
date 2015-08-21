@@ -102,16 +102,31 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
+        // If it is not a restored state set mMoviePosterAdapter to an empty ImageAdapter
+        // otherwise initialize it with the adapter from the saved state
+        if (!mRestoredState) {
+            mMoviePosterAdapter = new ImageAdapter(getActivity());
+        } else {
+            // Fixed the following bug:
+            // if you're in detail activity and turn network off, you go back to the main page
+            // change orientation it would crash
+            //
+            // So if the mMoviesList is empty even though the mRestoredState might be true
+            // Set the mRestoredState to false and then return the rootView
+            // then next time it should just set the mMoviesAdapter to an empty ImageAdapter
+            // as specified when it is not a restored state
+            if (mMoviesList == null) {
+                mRestoredState = false;
+                return rootView;
+            }
 
-        if (mRestoredState) {
             ArrayList<String> moviePosters = new ArrayList<String>();
             for (Movie movie : mMoviesList) {
                 moviePosters.add(movie.getPosterPath(movie.SIZE_W342));
             }
             mMoviePosterAdapter = new ImageAdapter(getActivity(), moviePosters);
-        } else {
-            mMoviePosterAdapter = new ImageAdapter(getActivity());
         }
+
         GridView gridview = (GridView) rootView.findViewById(R.id.grid_view);
         gridview.setAdapter(mMoviePosterAdapter);
 
@@ -280,6 +295,13 @@ public class MainActivityFragment extends Fragment {
         @Override
         protected void onPostExecute(ArrayList<Movie> result) {
             if (result != null) {
+                // Fixed following bug:
+                // Crash when you're in detail activity, and then you turn network connection off
+                // go back to main view, turn network back on, and then change orientation
+                if (mMoviePosterAdapter == null) {
+                    mMoviePosterAdapter = new ImageAdapter(getActivity());
+                }
+
                 mMoviePosterAdapter.clear();
                 for (Movie movie : result) {
                     mMoviePosterAdapter.add(movie.getPosterPath(movie.SIZE_W342));
