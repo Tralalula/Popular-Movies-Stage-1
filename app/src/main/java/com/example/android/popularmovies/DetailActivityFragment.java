@@ -53,9 +53,9 @@ public class DetailActivityFragment extends Fragment {
         String movieVoteCount = movie.getVoteCount();
 
         ImageView backdropPathView = (ImageView) rootView.findViewById(R.id.backdrop);
+        backdropPathView.setScaleType(ImageView.ScaleType.FIT_XY);
         Picasso.with(getActivity())
                 .load(movieBackdropPath)
-                .fit()
                 .into(backdropPathView);
 
         ImageView posterPathView = (ImageView) rootView.findViewById(R.id.poster);

@@ -46,8 +46,9 @@ public class MainActivityFragment extends Fragment {
     private final String MOST_POPULAR_PATH = "discover/movie";
     private final String TOP_RATED_PATH = "movie/top_rated";
 
-    private ImageAdapter moviePosterAdapter;
+    private ImageAdapter mMoviePosterAdapter;
     private ArrayList<Movie> mMoviesList;
+    private boolean mRestoredState;
 
     public MainActivityFragment() {
     }
@@ -56,6 +57,21 @@ public class MainActivityFragment extends Fragment {
     public void onStart() {
         super.onStart();
         updateMovies();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("restored movies", mMoviesList);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            mMoviesList = (ArrayList<Movie>) savedInstanceState.get("restored movies");
+            mRestoredState = true;
+        }
     }
 
     /**
@@ -86,9 +102,18 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        moviePosterAdapter = new ImageAdapter(getActivity());
+
+        if (mRestoredState) {
+            ArrayList<String> moviePosters = new ArrayList<String>();
+            for (Movie movie : mMoviesList) {
+                moviePosters.add(movie.getPosterPath(movie.SIZE_W342));
+            }
+            mMoviePosterAdapter = new ImageAdapter(getActivity(), moviePosters);
+        } else {
+            mMoviePosterAdapter = new ImageAdapter(getActivity());
+        }
         GridView gridview = (GridView) rootView.findViewById(R.id.grid_view);
-        gridview.setAdapter(moviePosterAdapter);
+        gridview.setAdapter(mMoviePosterAdapter);
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -130,7 +155,7 @@ public class MainActivityFragment extends Fragment {
 
     /**
      * Returns an ArrayList of type Movie, and it sets mMoviesList to the following ArrayList.
-     * It is used to populate the GridView layout with poster images, using the moviePosterAdapter.
+     * It is used to populate the GridView layout with poster images, using the mMoviePosterAdapter.
      * It is also used to pass data to another activity.
      *
      * Each Movie object will be set with a:
@@ -255,9 +280,9 @@ public class MainActivityFragment extends Fragment {
         @Override
         protected void onPostExecute(ArrayList<Movie> result) {
             if (result != null) {
-                moviePosterAdapter.clear();
+                mMoviePosterAdapter.clear();
                 for (Movie movie : result) {
-                    moviePosterAdapter.add(movie.getPosterPath(movie.SIZE_W342));
+                    mMoviePosterAdapter.add(movie.getPosterPath(movie.SIZE_W342));
                 }
             }
         }
