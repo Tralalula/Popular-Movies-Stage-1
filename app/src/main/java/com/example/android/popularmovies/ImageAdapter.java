@@ -19,7 +19,7 @@ public class ImageAdapter extends BaseAdapter {
      * @param context
      */
     public ImageAdapter(Context context) {
-       this(context, new ArrayList<String>());
+        this(context, new ArrayList<String>());
     }
 
     /**
